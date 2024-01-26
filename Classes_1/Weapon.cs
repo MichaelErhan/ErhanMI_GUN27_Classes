@@ -32,7 +32,7 @@ public class Weapon
     public Weapon(string name)
     {
         Name = name;
-        //_random = new Random();
+        _random = new Random();
     }
 
     public Weapon(string name, float minDamage, float maxDamage) : this(name)

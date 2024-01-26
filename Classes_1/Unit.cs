@@ -2,7 +2,7 @@
 
 public class Unit
 {
-    public Unit(string name, float health, Helm helm, Shell shell, Boots boots, Weapon weapon)
+    public Unit(string name, float health, Helm helm, Shell shell, Boots boots, Weapon weapon, Interval damageInterval)
     {
         Name = name;
         Health = health;
@@ -10,6 +10,7 @@ public class Unit
         Shell = shell;
         Boots = boots;
         Weapon = weapon;
+        DamageInterval = damageInterval;
     }
 
     public string Name { get; }
@@ -30,6 +31,8 @@ public class Unit
             }
         }
     }
+
+    public Interval DamageInterval { get; set; }
 
     public int HealthInt
     {
@@ -122,5 +125,49 @@ public class Unit
     public void EquipBoots(Boots boots)
     {
         Boots = boots;
+    }
+
+    public struct Interval
+    {
+        public double MinValue { get; }
+        public double MaxValue { get; }
+
+        public Interval(double minValue, double maxValue)
+        {
+            if (minValue > maxValue)
+            {
+                // Если minValue больше maxValue, меняем их местами
+                MinValue = maxValue;
+                MaxValue = minValue;
+                Console.WriteLine("Некорректные входные данные: minValue больше maxValue. Значения были переставлены.");
+            }
+            else
+            {
+                MinValue = minValue;
+                MaxValue = maxValue;
+            }
+        }
+
+        public Interval(double value) : this(value, value)
+        {
+        }
+
+        public double GetRandomNumber()
+        {
+            //знаю, что так не должно быть, но не получается поставить юнитевский рандом
+            Random random = new Random();
+            return random.Next((int)MaxValue, (int)MinValue);
+        }
+
+        public double Min => MinValue;
+
+        public double Max => MaxValue;
+
+        public double Average => (MinValue + MaxValue) / 2;
+
+        public override string ToString()
+        {
+            return $"Interval({MinValue}, {MaxValue})";
+        }
     }
 }
